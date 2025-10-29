@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>O.T.I Inc — Building the Future of Technology</title>
+  <style>
+    :root{
+      --bg-1: #020617;
+      --panel: linear-gradient(135deg,#07122b 0%, #07263d 100%);
+      --neon: #06b6d4;
+      --muted: #9ca3af;
+      --card: rgba(255,255,255,0.04);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;width:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{
+      background: var(--bg-1);
+      color: #e6eef6;
+      -webkit-font-smoothing:antialiased;
+      overflow:hidden;
+    }
+
+    /* ======================
+       TOP NAVIGATION BAR
+    ====================== */
+    nav.navbar {
+      position: fixed;
+      top: 0;
+      left: 96px;
+      right: 0;
+      height: 60px;
+      background: rgba(7,18,43,0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 999;
+      animation: slideDown 1s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-80px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    nav.navbar ul {
+      display: flex;
+      list-style: none;
+      gap: 28px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav.navbar ul li a {
+      color: #e6eef6;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: color .3s ease;
+      cursor: pointer;
+    }
+
+    nav.navbar ul li a:hover {
+      color: var(--neon);
+      text-shadow: 0 0 8px var(--neon);
+    }
+
+    /* CONTACT DROPDOWN */
+    .contact-dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 120%;
+      left: 0;
+      background: rgba(10, 25, 47, 0.98);
+      border: 1px solid rgba(0, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 10px;
+      min-width: 220px;
+      z-index: 1000;
+      flex-direction: column;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.35s ease;
+      box-shadow: 0 12px 30px rgba(2,6,23,0.6);
+    }
+
+    .contact-dropdown:hover .dropdown-menu {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .social-link {
+      color: #00ffff;
+      text-decoration: none;
+      font-size: 14px;
+      display: block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(0, 255, 255, 0.03);
+      transition: all 0.28s ease;
+      white-space: nowrap;
+    }
+
+    .social-link:hover {
+      background: rgba(0, 255, 255, 0.12);
+      color: white;
+      text-shadow: 0 0 10px #00ffff;
+      transform: translateY(-2px);
+    }
+
+    .whatsapp:hover { color: #25D366; text-shadow: 0 0 12px #25D366; }
+    .email:hover { color: #ff4d4d; text-shadow: 0 0 12px #ff4d4d; }
+    .instagram:hover { color: #E1306C; text-shadow: 0 0 12px #E1306C; }
+    .twitter:hover { color: #1DA1F2; text-shadow: 0 0 12px #1DA1F2; }
+
+    /* ======================
+       EXISTING STYLES
+    ====================== */
+
+    .wrap{
+      height:100vh;
+      width:100vw;
+      display:flex;
+      align-items:stretch;
+      position:relative;
+    }
+
+    .side-nav{
+      width:96px;
+      min-width:96px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-right: 1px solid rgba(255,255,255,0.03);
+      padding:24px 12px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:18px;
+    }
+
+    /* Left logo */
+    .logo-wrap img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 30px rgba(6,182,212,0.5);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .logo-wrap:hover img {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px rgba(6,182,212,0.8);
+    }
+
+    .brand-name{
+      font-size:11px;
+      text-align:center;
+      line-height:1.05;
+      color:var(--neon);
+      font-weight:600;
+      margin-top:4px;
+    }
+
+    .nav-dots{
+      margin-top:10px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:center;
+    }
+    .dot{
+      width:12px; height:12px; border-radius:50%;
+      background: rgba(255,255,255,0.06);
+      border:2px solid rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition: all .25s ease;
+      position:relative;
+    }
+    .dot.active{
+      background:var(--neon);
+      box-shadow: 0 6px 20px rgba(6,182,212,0.18);
+      transform: scale(1.12);
+      border-color: rgba(255,255,255,0.08);
+    }
+    .label{
+      font-size:11px;
+      color:var(--muted);
+      writing-mode:vertical-rl;
+      transform: rotate(180deg);
+      margin-top:6px;
+    }
+
+    .track{
+      flex:1;
+      height:100%;
+      overflow-x:auto;
+      overflow-y:hidden;
+      scroll-snap-type: x mandatory;
+      display:flex;
+      scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    .slide{
+      scroll-snap-align:start;
+      min-width:100vw;
+      height:100vh;
+      padding:96px 56px 56px; /* extra top padding for nav */
+      display:flex;
+      gap:40px;
+      align-items:center;
+      background: var(--panel);
+      position:relative;
+    }
+
+    .slide .left{ width:48%; min-width:320px; }
+    .slide .right{ width:52%; display:flex; align-items:center; justify-content:center; min-width:300px; }
+
+    h1.hero{
+      font-size:34px;
+      line-height:1.02;
+      margin-bottom:12px;
+      color: #f0fbff;
+      text-shadow: 0 8px 30px rgba(2,6,23,0.6);
+    }
+    p.lead{
+      color: #d6eaf0;
+      opacity:0.95;
+      margin-bottom:18px;
+      font-size:15px;
+    }
+
+    .mission-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      padding:18px;
+      border-radius:12px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      max-width:560px;
+    }
+    .mission-title{
+      color:var(--neon);
+      font-weight:700;
+      margin-bottom:8px;
+      font-size:16px;
+    }
+    .mission-text{
+      color:#d7edf3;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .projects{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:18px;
+      margin-top:18px;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:16px;
+      border:1px solid rgba(255,255,255,0.03);
+      min-height:120px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:8px;
+    }
+    .card h4{ margin:0;color:#e9fbff; font-size:15px;}
+    .card p{ margin:0;color: #c7e9ee; font-size:13px; opacity:0.95; }
+
+    .btn{
+      display:inline-block;
+      background: linear-gradient(90deg, var(--neon), #3bb6d6);
+      border:none;
+      color:#021426;
+      padding:10px 18px;
+      border-radius:999px;
+      font-weight:700;
+      cursor:pointer;
+      margin-top:12px;
+      box-shadow: 0 8px 30px rgba(6,182,212,0.12);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .btn:hover{ transform: translateY(-3px); box-shadow: 0 16px 40px rgba(6,182,212,0.18); }
+
+    .visual{
+      width:100%;
+      max-width:620px;
+      height:64%;
+      border-radius:16px;
+      background: linear-gradient(135deg, rgba(6,182,212,0.06), rgba(3,7,20,0.6));
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--neon);
+      font-weight:700;
+      font-size:18px;
+      text-align:center;
+      padding:18px;
+      box-shadow: 0 30px 60px rgba(2,6,23,0.6);
+    }
+
+    /* === Your photo === */
+    .company-logo {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      object-fit: cover;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+      box-shadow: 0 0 30px rgba(6,182,212,0.5);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .company-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px rgba(6,182,212,0.8);
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Founder section */
+    .hero-person{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      justify-content:center;
+      text-align:left;
+    }
+    .person-meta{display:flex;flex-direction:column;gap:4px;}
+    .person-name{font-weight:800;font-size:18px;color:#f0fbff;}
+    .person-title{font-weight:600;font-size:12px;color:var(--neon);margin-left:8px;padding:4px 8px;border-radius:999px;background:rgba(6,182,212,0.08);}
+    .person-tag{color:#cfeff6;font-size:13px;opacity:0.9;}
+    @media(max-width:900px){
+      .hero-person{flex-direction:column;text-align:center;}
+      .person-title{margin-left:0;}
+    }
+
+    footer.slide-foot{
+      position:absolute;
+      left:56px;
+      bottom:18px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    @media (max-width:900px){
+      .side-nav{ display:flex; padding:14px 8px;}
+      .slide{ padding:100px 30px 30px;}
+      .slide .left{ width:100%; }
+      .slide .right{ display:none; }
+      .projects{ grid-template-columns: 1fr; }
+      nav.navbar { left: 0; padding: 0 16px; }
+    }
+
+    .track::-webkit-scrollbar{ height:8px; display:none }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- Side navigation -->
+    <aside class="side-nav">
+      <div class="logo-wrap" title="O.T.I. Inc logo">
+        <img src="OTI.jpg" alt="O.T.I. Inc logo">
+      </div>
+      <div class="brand-name">O.T.I INC</div>
+
+      <div class="nav-dots" id="navDots">
+        <div class="dot active" data-index="0" title="Home"></div>
+        <div class="dot" data-index="1" title="Mission"></div>
+        <div class="dot" data-index="2" title="Future of Tech"></div>
+        <div class="dot" data-index="3" title="What We Build"></div>
+        <div class="dot" data-index="4" title="Contact"></div>
+      </div>
+      <div class="label">Explore</div>
+    </aside>
+
+    <!-- NEW NAV BAR -->
+    <nav class="navbar" aria-label="Main navigation">
+      <ul>
+        <li><a onclick="goTo(0)">Home</a></li>
+        <li><a onclick="goTo(1)">Mission</a></li>
+        <li><a onclick="goTo(2)">Future</a></li>
+        <li><a onclick="goTo(3)">Projects</a></li>
+
+        <li class="contact-dropdown" aria-haspopup="true">
+          <a>Contact ▼</a>
+          <div class="dropdown-menu" role="menu" aria-hidden="true">
+            <!-- WhatsApp (use wa.me with country code, no plus sign) -->
+            <a href="https://wa.me/254705542405" target="_blank" class="social-link whatsapp" role="menuitem">💬 WhatsApp</a>
+            <a href="mailto:omollotech.inc@gmail.com" target="_blank" class="social-link email" role="menuitem">📧 Email</a>
+            <a href="https://instagram.com/oti_blueprint" target="_blank" class="social-link instagram" role="menuitem">📸 Instagram</a>
+            <a href="https://x.com/omollotech" target="_blank" class="social-link twitter" role="menuitem">🐦 X (Twitter)</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <main class="track" id="track" tabindex="0" role="main" aria-label="O.T.I Inc slides">
+      <!-- Slide 1 -->
+      <section class="slide" id="s0" aria-labelledby="homeTitle">
+        <div class="left">
+          <h1 class="hero" id="homeTitle">O.T.I Inc — Building the future of technology</h1>
+          <p class="lead">The sky is the Lowest limit. We fuse human insight and intelligent interfaces to build technology that feels familiar, simple and powerful.</p>
+
+          <div class="mission-card">
+            <div class="mission-title">Our Mission</div>
+            <div class="mission-text">To make humans and technology more familiar than ever before — bridging innovation with simplicity for everyday life.</div>
+            <button class="btn" onclick="goTo(3)">Explore What We Build →</button>
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="visual">
+            <div class="hero-person">
+              <img src="me.jpg" alt="Emmanuel Omollo" class="company-logo">
+              <div class="person-meta">
+                <div class="person-name">Emmanuel Omollo <span class="person-title">Founder</span></div>
+                <div class="person-tag">"Imagination to reality"</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="slide-foot">© 2025 O.T.I Inc • The sky is the Lowest limit</footer>
+      </section>
+
+      <!-- Slide 2 -->
+      <section class="slide" id="s1" aria-labelledby="missionTitle">
+        <div class="left">
+          <h1 class="hero" id="missionTitle">Mission</h1>
+          <p class="lead">My team and i enable brands and organizations to manage intelligent interfaces and get reliable stats — putting simple, secure tools in the hands of decision makers.</p>
+          <div class="mission-card">
+            <div class="mission-title">Human + Tech</div>
+            <div class="mission-text">We design systems where technology anticipates needs, simplifies workflows, and increases trust — not complexity.</div>
+          </div>
+        </div>
+        <div class="right"><div class="visual">Mission visual — human-centered AI & dashboards</div></div>
+      </section>
+
+      <!-- Slide 3 -->
+      <section class="slide" id="s2" aria-labelledby="futureTitle">
+        <div class="left">
+          <h1 class="hero" id="futureTitle">The Future of Technology</h1>
+          <p class="lead">At O.T.I. Inc, we believe the future belongs to those who merge imagination with innovation.</p>
+          <div class="mission-card">
+            <div class="mission-title">Vision</div>
+            <div class="mission-text">From autonomous systems to AI that understands intention, our vision is to lead that transformation.</div>
+            <button class="btn" onclick="goTo(3)">See our solutions</button>
+          </div>
+        </div>
+        <div class="right"><div class="visual">AI • Automation • Smart Systems — human-first design</div></div>
+      </section>
+
+      <!-- Slide 4 -->
+      <section class="slide" id="s3" aria-labelledby="buildTitle">
+        <div class="left">
+          <h1 class="hero" id="buildTitle">What We Build</h1>
+          <p class="lead">We help brands create stable, intelligent interfaces to manage operations and extract insights.</p>
+          <div class="projects" role="list">
+            <div class="card" role="listitem"><h4>Automated Vehicle Interface</h4><p>Real-time road statistics and visual dashboards.</p></div>
+            <div class="card" role="listitem"><h4>Boreshamwananchi SACCO</h4><p>Smart financial dashboards for cooperatives.</p></div>
+            <div class="card" role="listitem"><h4>Smart Real Estate Systems</h4><p>Property management tools with data insights.</p></div>
+            <div class="card" role="listitem"><h4>Custom Brand Interfaces</h4><p>Stable dashboards and embeddable widgets.</p></div>
+          </div>
+        </div>
+        <div class="right"><div class="visual">Product mockups — dashboard, reports & realtime feed</div></div>
+      </section>
+
+      <!-- Slide 5 -->
+      <section class="slide" id="s4" aria-labelledby="contactTitle">
+        <div class="left">
+          <h1 class="hero" id="contactTitle">Let's build the future together</h1>
+          <p class="lead">Partner with O.T.I. Inc to create interfaces that scale, perform, and feel familiar.</p>
+          <div class="mission-card">
+            <div class="mission-title">Contact</div>
+            <div class="mission-text">
+              Email: <strong>omollotech.inc@gmail.com</strong><br>
+              Phone: <strong>+254 707 665 094</strong><br>
+              Location: Nairobi / Kenya
+            </div>
+            <div style="margin-top:12px;">
+              <a href="mailto:omollotech.inc@gmail.com" class="btn">Email Us</a>
+            </div>
+          </div>
+        </div>
+        <div class="right"><div class="visual">Join O.T.I. — collaborate, invest, or pilot a project.</div></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function(){
+      const track = document.getElementById('track');
+      const dots = Array.from(document.querySelectorAll('.dot'));
+      const slides = Array.from(document.querySelectorAll('.slide'));
+
+      function updateActive(){
+        const scrollLeft = track.scrollLeft;
+        const width = track.clientWidth;
+        const index = Math.round(scrollLeft / width);
+        dots.forEach(d=>d.classList.remove('active'));
+        if(dots[index]) dots[index].classList.add('active');
+      }
+
+      // click on dot -> scroll to slide
+      dots.forEach(d=>{
+        d.addEventListener('click', ()=> {
+          const i = Number(d.dataset.index);
+          track.scrollTo({ left: i * track.clientWidth, behavior:'smooth' });
+        });
+      });
+
+      // update active on scroll (debounced)
+      let tid = null;
+      track.addEventListener('scroll', ()=> {
+        clearTimeout(tid);
+        tid = setTimeout(updateActive, 80);
+      });
+
+      // keyboard left/right navigation
+      window.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+          track.scrollBy({ left: track.clientWidth, behavior:'smooth' });
+        } else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+          track.scrollBy({ left: -track.clientWidth, behavior:'smooth' });
+        }
+      });
+
+      // Expose goTo for buttons
+      window.goTo = function(index){
+        index = Math.max(0, Math.min(index, slides.length - 1));
+        track.scrollTo({ left: index * track.clientWidth, behavior:'smooth' });
+      };
+
+      // initial set
+      updateActive();
+
+      // make horizontal wheel scroll slides horizontally
+      track.addEventListener('wheel', (e)=>{
+        if(Math.abs(e.deltaY) > 0){
+          e.preventDefault();
+          track.scrollLeft += e.deltaY;
+        }
+      }, {passive:false});
+
+    })();
+  </script>
+</body>
+</html>
